@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PaycheckDistribution {
-	
+	// testing git pushing
 	public static void main(String args[]) {
 		final int FLAT = 0;
 		final int PERC = 1;
