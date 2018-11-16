@@ -1,68 +1,33 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PaycheckDistribution {
-	// testing git pushing
+	
+	 /* C:   20%  GS:  20%
+	  * LP:  20%  SS:  10%
+	  * LTS: 20%  CRT: 10%
+	  */
+	
 	public static void main(String args[]) {
-		final int FLAT = 0;
-		final int PERC = 1;
+		Vault vault = new Vault("Vault 1");
+		vault.createAccount("C", null, 20.0);
+		vault.createAccount("GS", null, 20.0);
+		vault.createAccount("CAR", null, 20.0);
+		vault.createAccount("SS", null, 10.0);
 		
-		/* distributionRates[FLAT] = flat rates (applied first)
-		 * distributionRates[PERC] = percentage rates (remaining amount after flat rates)
-		 */
-		double[][] distributionRates = new double[PERC + 1][];
-		String[][] distributionNames = new String[PERC + 1][];
+		vault.printVault();
 		
+		Account acc1 = new Account("LTS", 50.0, null);
+		vault.addAccount(acc1);
 		
-		 /* PERC
-		  * --------
-		  * C:   20%  GS:  20%
-		  * LP:  20%  SS:  10%
-		  * LTS: 20%  CRT: 10%
-		  * 
-		  */
+		vault.printVault();
 		
-		AccountManager accMgr = new AccountManager();
-		accMgr.addAccount(20.0, "C", "GS", "LP", "LTS");
-		accMgr.addAccount(10.0, "SS", "CRT");
-		System.out.println(accMgr.toString());
+		acc1.setPercRate(10.0);
 		
-//		
-//		distribute(paycheck, accountManger);
-//		distribute(100.0, accMgr);
+		vault.printVault();
 		
-//		HashMap<String, Double> distributionMap = new HashMap<String, Double>();
-//		ArrayList<String> accNames = new ArrayList<String>();
-//		
-//		assignDisRate(20.0, "C", distributionMap, accNames);
-//		assignDisRate(20.0, "GS", distributionMap, accNames);
-//		
-//		System.out.println(distributionMap.toString());
-		
-		
-//		assignDisRate(distributionRates[PERC], distributionNames[PERC], 20.0, "EMG");
-//		assignDisRate(distributionRates[PERC], distributionNames[PERC], 20.0, "EMG", 2);
-//		ArrayList distributionRate = new ArrayList();
-//		ArrayList[][] table1 = new ArrayList[10][10];
-//		ArrayList[] table2 = new ArrayList[2];
-//		ArrayList<ArrayList> table3 = new ArrayList<ArrayList>();
-	}
-	
-	public static void assignDisRate(double rate, String accName, HashMap<String, Double> map, ArrayList<String> accNames) {
-		map.put(accName, rate);
-		accNames.add(accName);
-	}
-	
-	/* double[] disRateArr -> the array that contains the distribution rates to be altered
-	 * String[] disRateNames -> the array that contains the name of the accounts 
-	 * double rate -> the rate to be added
-	 * String acc -> the name of the account being added
-	 */
-	public static void assignDisRate(double[] distRateArr, String[] distRateNames, double rate, String acc) {
-		
-	}
-	
-	public static void assignDisRate(double[] distRateArr, String[] distRateNames, double rate, String acc, int index) {
-		
+		double[] distributed = DistributionManager.distribute(new Paycheck(100), vault);
+		System.out.println(Arrays.toString(distributed));
 	}
 }
