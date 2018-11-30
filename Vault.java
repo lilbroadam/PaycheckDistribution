@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 
 public class Vault {
-	String name;
-	ArrayList<Account> accounts = new ArrayList<Account>();
+	private String name;
+	private ArrayList<Account> accounts = new ArrayList<Account>();
 
 	public Vault(String name) {
 		this.name = name;

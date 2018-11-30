@@ -8,16 +8,20 @@
  */
 
 public class Account {
-	String name;
-	Quota quota;
+	private static int idCounter = 1;
 	
-	public Account(String name) {
-		this.name = name;
-	}
+	private String name;
+	private Quota quota;
+	private int idNum;
 	
 	public Account(String name, Double flat, Double perc) {
 		this.name = name;
 		quota = new Quota(flat, perc);
+		assignIDnum();
+	}
+	
+	public Account(String name) {
+		this(name, null, null);
 	}
 	
 	public void setFlatRate(double flat) { quota.setFlatRate(flat); }
@@ -29,4 +33,9 @@ public class Account {
 	public double getFlatRate() { return quota.getFlatRate(); }
 	
 	public double getPercRate() { return quota.getPercRate(); }
+	
+	private void assignIDnum() {
+		idNum = idCounter++;
+		System.out.println(idNum);
+	}
 }

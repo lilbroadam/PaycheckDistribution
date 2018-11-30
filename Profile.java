@@ -5,8 +5,8 @@ import java.util.ArrayList;
  */
 
 public class Profile {
-	String name;
-	ArrayList<Vault> vaults = new ArrayList<Vault>();
+	private String name;
+	private ArrayList<Vault> vaults = new ArrayList<Vault>();
 	
 	Profile(String name){
 		this.name = name;

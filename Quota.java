@@ -3,9 +3,14 @@
  * Flat rates are applied first when distributing paychecks, then percentages
  */
 
+/* TO-DO LIST:
+ * - throw exception if percRate given is > 100
+ * 
+ */
+
 public class Quota {
-	double flatRate;
-	double percRate;
+	private double flatRate;
+	private double percRate;
 	
 	public Quota(Double flat, Double perc) {
 		if(flat != null)

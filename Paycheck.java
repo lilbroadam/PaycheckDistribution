@@ -5,7 +5,7 @@
 
 public class Paycheck {
 
-	double payAmount;
+	private double payAmount;
 	// payDate;
 	
 	Paycheck(double amount){
