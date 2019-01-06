@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /* Vaults contain and manage accounts.
  * Vaults can have different configurations of accounts
@@ -9,19 +10,31 @@ import java.util.ArrayList;
 
 /* TO-DO LIST:
  * - make createAccount(String name) and figure out how to manage an account with no quota
- * - need a way to manage the accounts inside the vault. ex: change account name or rate 
+ * - better account ID management. Account ID's should be based off the vault, not accounts purely individual
+ * - search for account by ID number
  */
 
 public class Vault {
+	
 	private String name;
 	private ArrayList<Account> accounts = new ArrayList<Account>();
+	
+	private double percTotal;
 
 	public Vault(String name) {
 		this.name = name;
 	}
 	
+	public void createAccount(String name, String abbrv, Double flat, Double perc) {
+		// throw exception if name or abbreviation is already taken
+		if(searchForAccount(name) != null || searchForAccount(abbrv) != null)
+			throw new IllegalArgumentException("The account name \"" + name + "\" and/or abbreviation \"" + abbrv + "\" is already in use");
+		
+		accounts.add(new Account(name, abbrv, flat, perc));
+	}
+	
 	public void createAccount(String name, Double flat, Double perc) {
-		accounts.add(new Account(name, flat, perc));
+		createAccount(name, name, flat, perc);
 	}
 	
 	public void addAccount(Account ... account) {
@@ -31,12 +44,61 @@ public class Vault {
 	
 	public int numAccounts() { return accounts.size(); }
 	
+	public void calculatePercTotal() {
+		percTotal = 0;
+		
+		for(Account acc : accounts) {
+			percTotal += acc.getPercRate();
+		}
+	}
+	
+	public double percTotal() { 
+		calculatePercTotal();
+		return percTotal;
+	}
+	
+	public boolean checkPercTotal() {
+		return percTotal() == 100;
+	}
+	
+	// search for and return the given account by name or abbreviation.
+	// return a NoSuchElementException if account isn't found
+	public Account getAccount(String searchToken) {
+		Account acc = searchForAccount(searchToken);
+		
+		// if (acc == null) { throw exception } else {return acc}
+		
+		try {
+			acc.getName();
+		} catch (NullPointerException e) {
+			throw new NoSuchElementException("Account \"" + searchToken + "\" doesn't exist");
+		}
+		
+		return acc;
+	}
+	
+	// searches for the given account and returns it if found, returns null if it isn't found
+	private Account searchForAccount(String searchToken) {
+		for(Account acc : accounts) {
+			if(acc.getName().equalsIgnoreCase(searchToken)) {
+				return acc;
+			} else if (acc.getAbbreviation().equalsIgnoreCase(searchToken)) {
+				return acc;
+			}
+		}
+		
+		return null;
+	}
+	
 	public void printVault() {
 		System.out.println(name + ":");
 		System.out.println("----------");
-		for(int i = 0; i < accounts.size(); i++) {
-			Account acc = accounts.get(i);
-			System.out.printf("%3s: $%.2f | %.2f%%\n", acc.getName(), acc.getFlatRate(), acc.getPercRate());
+		
+		for(Account acc : accounts)
+			System.out.printf("%3s: $%.2f | %.2f%%\n", acc.getAbbreviation(), acc.getFlatRate(), acc.getPercRate());
+		
+		if(!checkPercTotal()) {
+			System.out.println("Warning: the total percentage of the volt is " + percTotal + "%, not 100%");
 		}
 	}
 }

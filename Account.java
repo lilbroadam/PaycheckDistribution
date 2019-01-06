@@ -1,27 +1,41 @@
 
 /* A data type for individual bank accounts (checking, saving, etc)
  * The Quota data type contains the information about the accounts distribution rate
+ * 
+ * - Account name is not case-sensitive
+ * - Account abbreviation has a maximum of 3 characters and is upper case
+ * 	- If no abbreviation is provided, first 3 letters of account name is used
  */
 
 /* TO-DO LIST:
- * - throw exception when adding an account who's name is already being used
+ * - 
  */
 
 public class Account {
+	
 	private static int idCounter = 1;
 	
 	private String name;
+	private String abbrv;
+		private int maxAbbrvLength = 3;
 	private Quota quota;
 	private int idNum;
 	
-	public Account(String name, Double flat, Double perc) {
+	public Account(String name, String abbreviation, Double flat, Double perc) {
 		this.name = name;
+		abbrv = trimAbbreviation(abbreviation);
 		quota = new Quota(flat, perc);
 		assignIDnum();
 	}
 	
+	// No abbreviation provided
+	public Account(String name, Double flat, Double perc) {
+		this(name, name, flat, perc);
+	}
+	
+	// No abbreviation or quota provided
 	public Account(String name) {
-		this(name, null, null);
+		this(name, name, null, null);
 	}
 	
 	public void setFlatRate(double flat) { quota.setFlatRate(flat); }
@@ -29,13 +43,21 @@ public class Account {
 	public void setPercRate(double perc) { quota.setPercRate(perc); }
 	
 	public String getName() { return name; }
-
+	
+	public String getAbbreviation() { return abbrv; }
+	
 	public double getFlatRate() { return quota.getFlatRate(); }
 	
 	public double getPercRate() { return quota.getPercRate(); }
 	
+	private String trimAbbreviation(String abbrv) {
+		if(abbrv.length() > maxAbbrvLength)
+			return abbrv.substring(0, maxAbbrvLength).toUpperCase();
+		else
+			return abbrv.toUpperCase();
+	}
+	
 	private void assignIDnum() {
 		idNum = idCounter++;
-		System.out.println(idNum);
 	}
 }

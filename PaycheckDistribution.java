@@ -10,24 +10,28 @@ public class PaycheckDistribution {
 	  */
 	
 	public static void main(String args[]) {
+		// initialize a vault
 		Vault vault = new Vault("Vault 1");
-		vault.createAccount("C", null, 20.0);
-		vault.createAccount("GS", null, 20.0);
-		vault.createAccount("CAR", null, 20.0);
-		vault.createAccount("SS", null, 10.0);
+		vault.createAccount("Checking", "C", null, 20.0);
+		vault.createAccount("General savings", "GS", null, 20.0);
+		vault.createAccount("Car", "CAR", null, 20.0); // TODO, default name is abbreviation
+		vault.createAccount("Special savings", "SS", null, 10.0);
 		
 		vault.printVault();
 		
-		Account acc1 = new Account("LTS", 50.0, null);
+		// add an account object to the vault
+		Account acc1 = new Account("Longterm savings", "LTS", 50.0, null);
 		vault.addAccount(acc1);
 		
 		vault.printVault();
 		
-		acc1.setPercRate(10.0);
+		acc1.setPercRate(20.0);
 		
 		vault.printVault();
 		
-		double[] distributed = DistributionManager.distribute(new Paycheck(100), vault);
-		System.out.println(Arrays.toString(distributed));
+		// add an anonymous object to the vault
+		vault.addAccount(new Account("Certificate", "CRT", null, 10.0));
+		
+		vault.printVault();		
 	}
 }
