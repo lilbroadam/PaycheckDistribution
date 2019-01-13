@@ -21,21 +21,21 @@ public class Account {
 	private Quota quota;
 	private int idNum;
 	
-	public Account(String name, String abbreviation, Double flat, Double perc) {
-		this.name = name;
+	public Account(String accountName, String abbreviation, Double flat, Double perc) {
+		name = accountName;
 		abbrv = trimAbbreviation(abbreviation);
 		quota = new Quota(flat, perc);
 		assignIDnum();
 	}
 	
 	// No abbreviation provided
-	public Account(String name, Double flat, Double perc) {
-		this(name, name, flat, perc);
+	public Account(String accountName, Double flat, Double perc) {
+		this(accountName, accountName, flat, perc);
 	}
 	
 	// No abbreviation or quota provided
-	public Account(String name) {
-		this(name, name, null, null);
+	public Account(String accountName) {
+		this(accountName, accountName, null, null);
 	}
 	
 	public void setFlatRate(double flat) { quota.setFlatRate(flat); }

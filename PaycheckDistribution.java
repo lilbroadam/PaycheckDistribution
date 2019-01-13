@@ -17,8 +17,6 @@ public class PaycheckDistribution {
 		vault.createAccount("Car", "CAR", null, 20.0); // TODO, default name is abbreviation
 		vault.createAccount("Special savings", "SS", null, 10.0);
 		
-		vault.printVault();
-		
 		// add an account object to the vault
 		Account acc1 = new Account("Longterm savings", "LTS", 50.0, null);
 		vault.addAccount(acc1);
@@ -32,6 +30,18 @@ public class PaycheckDistribution {
 		// add an anonymous object to the vault
 		vault.addAccount(new Account("Certificate", "CRT", null, 10.0));
 		
-		vault.printVault();		
+		vault.printVault();
+		
+		DistributionManager.printDistribution(new Paycheck(100), vault);
+		
+
+		
+		// initialize a vault with account objects
+//		Account acc2 = new Account("Account2", "Ac2", null, 50.00);
+//		Account acc3 = new Account("Account3", "Ac3", null, 50.0);
+//		Account acc4 = new Account("Account4", "Ac4", 20.0, null);
+//		Vault vault2 = new Vault("Vault 2", acc2, acc3, acc4);
+//		vault2.printVault();
+		
 	}
 }

@@ -21,8 +21,15 @@ public class Vault {
 	
 	private double percTotal;
 
-	public Vault(String name) {
-		this.name = name;
+	public Vault(String vaultName) {
+		name = vaultName;
+	}
+	
+	public Vault(String vaultName, Account ... account) {
+		name = vaultName;
+		
+		for(Account acc : account)
+			accounts.add(acc);
 	}
 	
 	public void createAccount(String name, String abbrv, Double flat, Double perc) {
@@ -60,6 +67,10 @@ public class Vault {
 	public boolean checkPercTotal() {
 		return percTotal() == 100;
 	}
+	
+	public String getName() { return name; }
+	
+	public ArrayList<Account> getAccounts() { return accounts; }
 	
 	// search for and return the given account by name or abbreviation.
 	// return a NoSuchElementException if account isn't found
